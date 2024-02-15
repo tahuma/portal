@@ -24,8 +24,12 @@ BASE_DIR = os.path.dirname(PROJECT_DIR)
 # Application definition
 
 INSTALLED_APPS = [
+    "blog",
     "home",
     "search",
+    "ontology",
+    "synopsis",
+    'fontawesomefree',
     "wagtail.contrib.forms",
     "wagtail.contrib.redirects",
     "wagtail.embeds",
@@ -151,7 +155,7 @@ MEDIA_URL = "/media/"
 
 # Wagtail settings
 
-WAGTAIL_SITE_NAME = "portal"
+WAGTAIL_SITE_NAME = "Tanhuma Portal"
 
 # Search
 # https://docs.wagtail.org/en/stable/topics/search/backends.html
@@ -164,3 +168,16 @@ WAGTAILSEARCH_BACKENDS = {
 # Base URL to use when referring to full URLs within the Wagtail admin backend -
 # e.g. in notification emails. Don't include '/admin' or a trailing slash
 WAGTAILADMIN_BASE_URL = "http://example.com"
+
+WAGTAIL_I18N_ENABLED = True
+
+WAGTAIL_CONTENT_LANGUAGES = [
+    ('en', "English"),
+    ('he', "Hebrew"),
+]
+
+# Disable commenting
+WAGTAILADMIN_COMMENTS_ENABLED = False
+
+WAGTAIL_AUTO_UPDATE_PREVIEW = True
+
