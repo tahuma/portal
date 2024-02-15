@@ -1,4 +1,11 @@
 # Tanhuma Project Portal
+[![Docker](https://github.com/tahuma/portal/actions/workflows/docker-publish.yml/badge.svg)](https://github.com/tahuma/portal/actions/workflows/docker-publish.yml)
+[![Django CI](https://github.com/tahuma/portal/actions/workflows/django.yml/badge.svg)](https://github.com/tahuma/portal/actions/workflows/django.yml)
+[![Docker Image CI](https://github.com/tahuma/portal/actions/workflows/docker-image.yml/badge.svg)](https://github.com/tahuma/portal/actions/workflows/docker-image.yml)
+[![CodeQL](https://github.com/tahuma/portal/actions/workflows/codeql.yml/badge.svg)](https://github.com/tahuma/portal/actions/workflows/codeql.yml)
+[![Node.js CI](https://github.com/tahuma/portal/actions/workflows/node.js.yml/badge.svg)](https://github.com/tahuma/portal/actions/workflows/node.js.yml)
+
+
 
 ## Table of Contents
 - [Introduction](#introduction)
