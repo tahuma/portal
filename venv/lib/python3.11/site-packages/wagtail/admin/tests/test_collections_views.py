@@ -42,7 +42,7 @@ class CollectionInstanceTestUtils:
         self.marketing_user.groups.add(self.marketing_group)
 
 
-class TestCollectionsIndexViewAsSuperuser(TestCase, WagtailTestUtils):
+class TestCollectionsIndexViewAsSuperuser(WagtailTestUtils, TestCase):
     def setUp(self):
         self.login()
 
@@ -101,7 +101,7 @@ class TestCollectionsIndexViewAsSuperuser(TestCase, WagtailTestUtils):
         )
 
 
-class TestCollectionsIndexView(CollectionInstanceTestUtils, TestCase, WagtailTestUtils):
+class TestCollectionsIndexView(CollectionInstanceTestUtils, WagtailTestUtils, TestCase):
     def setUp(self):
         super().setUp()
         self.login(self.marketing_user, password="password")
@@ -186,7 +186,7 @@ class TestCollectionsIndexView(CollectionInstanceTestUtils, TestCase, WagtailTes
         self.assertContains(response, "Add a collection")
 
 
-class TestAddCollectionAsSuperuser(TestCase, WagtailTestUtils):
+class TestAddCollectionAsSuperuser(WagtailTestUtils, TestCase):
     def setUp(self):
         self.login()
         self.root_collection = Collection.get_first_root_node()
@@ -221,7 +221,7 @@ class TestAddCollectionAsSuperuser(TestCase, WagtailTestUtils):
         )
 
 
-class TestAddCollection(CollectionInstanceTestUtils, TestCase, WagtailTestUtils):
+class TestAddCollection(CollectionInstanceTestUtils, WagtailTestUtils, TestCase):
     def setUp(self):
         super().setUp()
         self.login(self.marketing_user, password="password")
@@ -288,7 +288,7 @@ class TestAddCollection(CollectionInstanceTestUtils, TestCase, WagtailTestUtils)
         )
 
 
-class TestEditCollectionAsSuperuser(TestCase, WagtailTestUtils):
+class TestEditCollectionAsSuperuser(WagtailTestUtils, TestCase):
     def setUp(self):
         self.user = self.login()
         self.root_collection = Collection.get_first_root_node()
@@ -361,7 +361,7 @@ class TestEditCollectionAsSuperuser(TestCase, WagtailTestUtils):
         )
 
 
-class TestEditCollection(CollectionInstanceTestUtils, TestCase, WagtailTestUtils):
+class TestEditCollection(CollectionInstanceTestUtils, WagtailTestUtils, TestCase):
     def setUp(self):
         super().setUp()
         # Grant the marketing group permission to edit their collection
@@ -466,10 +466,24 @@ class TestEditCollection(CollectionInstanceTestUtils, TestCase, WagtailTestUtils
         )
 
     def test_marketing_user_cannot_move_collection_permissions_are_assigned_to(self):
+        # Grant the marketing group permission to another collection so there is a valid destination
+        GroupCollectionPermission.objects.create(
+            group=self.marketing_group,
+            collection=self.finance_collection,
+            permission=self.add_permission,
+        )
         response = self.get(collection_id=self.marketing_collection.id)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(list(response.context["form"].fields.keys()), ["name"])
         self.assertNotContains(response, "Delete collection")
+
+    def test_cannot_move_collection_permissions_are_assigned_to_with_minimal_permission(
+        self,
+    ):
+        # Remove the "add" permission so the user only has "change" permission
+        self.users_add_permission.delete()
+        # Do the same test as above
+        self.test_marketing_user_cannot_move_collection_permissions_are_assigned_to()
 
     def test_marketing_user_cannot_move_collection_permissions_are_assigned_to_post(
         self,
@@ -503,6 +517,14 @@ class TestEditCollection(CollectionInstanceTestUtils, TestCase, WagtailTestUtils
             self.root_collection,
         )
 
+    def test_cannot_move_collection_permissions_are_assigned_to_with_minimal_permission_post(
+        self,
+    ):
+        # Remove the "add" permission so the user only has "change" permission
+        self.users_add_permission.delete()
+        # Do the same test as above
+        self.test_marketing_user_cannot_move_collection_permissions_are_assigned_to_post()
+
     def test_page_shows_delete_link_only_if_delete_permitted(self):
         # Retrieve edit form and check fields
         response = self.get(collection_id=self.marketing_sub_collection.id)
@@ -517,7 +539,7 @@ class TestEditCollection(CollectionInstanceTestUtils, TestCase, WagtailTestUtils
         self.assertContains(response, "Delete collection")
 
 
-class TestDeleteCollectionAsSuperuser(TestCase, WagtailTestUtils):
+class TestDeleteCollectionAsSuperuser(WagtailTestUtils, TestCase):
     def setUp(self):
         self.login()
         self.root_collection = Collection.get_first_root_node()
@@ -610,7 +632,7 @@ class TestDeleteCollectionAsSuperuser(TestCase, WagtailTestUtils):
         self.assertTrue(Collection.objects.get(id=self.root_collection.id))
 
 
-class TestDeleteCollection(CollectionInstanceTestUtils, TestCase, WagtailTestUtils):
+class TestDeleteCollection(CollectionInstanceTestUtils, WagtailTestUtils, TestCase):
     def setUp(self):
         super().setUp()
         # Grant the marketing group permission to delete

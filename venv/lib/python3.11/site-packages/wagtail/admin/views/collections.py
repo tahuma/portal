@@ -6,7 +6,7 @@ from wagtail import hooks
 from wagtail.admin import messages
 from wagtail.admin.forms.collections import CollectionForm
 from wagtail.admin.views.generic import CreateView, DeleteView, EditView, IndexView
-from wagtail.models import Collection, GroupCollectionPermission
+from wagtail.models import Collection
 from wagtail.permissions import collection_permission_policy
 
 
@@ -31,7 +31,7 @@ class Create(CreateView):
     permission_policy = collection_permission_policy
     form_class = CollectionForm
     page_title = gettext_lazy("Add collection")
-    success_message = gettext_lazy("Collection '{0}' created.")
+    success_message = gettext_lazy("Collection '%(object)s' created.")
     add_url_name = "wagtailadmin_collections:add"
     edit_url_name = "wagtailadmin_collections:edit"
     index_url_name = "wagtailadmin_collections:index"
@@ -58,7 +58,7 @@ class Edit(EditView):
     model = Collection
     form_class = CollectionForm
     template_name = "wagtailadmin/collections/edit.html"
-    success_message = gettext_lazy("Collection '{0}' updated.")
+    success_message = gettext_lazy("Collection '%(object)s' updated.")
     error_message = gettext_lazy("The collection could not be saved due to errors.")
     delete_item_label = gettext_lazy("Delete collection")
     edit_url_name = "wagtailadmin_collections:edit"
@@ -75,14 +75,16 @@ class Edit(EditView):
         if user.is_active and user.is_superuser:
             return True
         else:
-            permissions = self.permission_policy._get_permission_objects_for_actions(
-                ["add", "edit", "delete"]
+            permissions = (
+                self.permission_policy._get_user_permission_objects_for_actions(
+                    user, {"add", "change", "delete"}
+                )
             )
-            return not GroupCollectionPermission.objects.filter(
-                group__user=user,
-                permission__in=permissions,
-                collection=instance,
-            ).exists()
+            return not {
+                permission
+                for permission in permissions
+                if permission.collection_id == instance.pk
+            }
 
     def get_queryset(self):
         return self.permission_policy.instances_user_has_permission_for(
@@ -134,7 +136,7 @@ class Edit(EditView):
 class Delete(DeleteView):
     permission_policy = collection_permission_policy
     model = Collection
-    success_message = gettext_lazy("Collection '{0}' deleted.")
+    success_message = gettext_lazy("Collection '%(object)s' deleted.")
     index_url_name = "wagtailadmin_collections:index"
     delete_url_name = "wagtailadmin_collections:delete"
     page_title = gettext_lazy("Delete collection")

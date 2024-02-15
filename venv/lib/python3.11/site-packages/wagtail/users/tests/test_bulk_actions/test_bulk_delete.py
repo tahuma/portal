@@ -9,7 +9,7 @@ from wagtail.users.views.bulk_actions.user_bulk_action import UserBulkAction
 User = get_user_model()
 
 
-class TestUserDeleteView(TestCase, WagtailTestUtils):
+class TestUserDeleteView(WagtailTestUtils, TestCase):
     def setUp(self):
         # create a set of test users
         self.test_users = [
@@ -69,11 +69,11 @@ class TestUserDeleteView(TestCase, WagtailTestUtils):
         self.assertInHTML("<p>You don't have permission to delete this user</p>", html)
 
         needle = "<ul>"
-        needle += "<li>{user_email}</li>".format(user_email=self.current_user.email)
+        needle += f"<li>{self.current_user.email}</li>"
         needle += "</ul>"
         self.assertInHTML(needle, html)
 
-        response = self.client.post(self.self_delete_url)
+        self.client.post(self.self_delete_url)
 
         # Check user was not deleted
         self.assertTrue(User.objects.filter(pk=self.current_user.pk).exists())

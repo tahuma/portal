@@ -2,48 +2,37 @@
 {% load wagtailadmin_tags i18n %}
 
 {% block content %}
-    {% trans 'Page locking: ' as screen_reader_title_prefix %}
+    {% trans 'Locking: ' as screen_reader_title_prefix %}
 
     {% if lock %}
-        {% trans 'Locked' as title %}
-
-        {% if not locked_for_user and user_can_unlock %}
-            {% trans 'You can edit this page, but others may not. Unlock it to allow others to edit.' as help_text %}
-        {% elif not locked_for_user %}
-            {% trans 'You can edit this page, but others may not.' as help_text %}
-        {% elif user_can_unlock %}
-            {% trans 'You cannot edit this page. Unlock it to edit.' as help_text %}
-        {% else %}
-            {% trans 'You cannot edit this page.' as help_text %}
-        {% endif %}
-
-        {% with icon_name='lock' %}
+        {% with icon_name=lock_context.icon title=lock_context.locked_by help_text=lock_context.description %}
             {{ block.super }}
         {% endwith %}
     {% else %}
         {% trans 'Unlocked' as title %}
 
         {% if user_can_lock %}
-            {% trans 'Anyone can edit this page. Lock it to prevent others from editing.' as help_text %}
+            {% blocktrans trimmed with model_name=base_model_name|lower asvar help_text %}
+                Anyone can edit this {{ model_name }} – lock it to prevent others from editing
+            {% endblocktrans %}
         {% else %}
-            {% trans 'Anyone can edit this page.' as help_text %}
+            {% blocktrans trimmed with model_name=base_model_name|lower asvar help_text %}
+                Anyone can edit this {{ model_name }}
+            {% endblocktrans %}
         {% endif %}
 
-        {% with icon_name='lock-open' %}
+        {% with icon_name='lock-open' help_text=help_text|capfirst %}
             {{ block.super }}
         {% endwith %}
     {% endif %}
 {% endblock %}
 
 {% block action %}
-    {% if user_can_unlock and lock %}
-        {% url 'wagtailadmin_pages:unlock' page.id as unlock_url %}
-        {% trans 'Unlock' as unlock_text %}
-        {% include 'wagtailadmin/shared/side_panels/includes/side_panel_button.html' with attr='data-action-lock-unlock' data_url=unlock_url text=unlock_text %}
+    {% trans 'Lock' as lock_text %}
+    {% if user_can_unlock %}
+        {% include 'wagtailadmin/shared/action_switch.html' with data_url=unlock_url label_text=lock_text checked=True %}
     {% endif %}
-    {% if user_can_lock and not lock %}
-        {% url 'wagtailadmin_pages:lock' page.id as lock_url %}
-        {% trans 'Lock' as lock_text %}
-        {% include 'wagtailadmin/shared/side_panels/includes/side_panel_button.html' with attr='data-action-lock-unlock' data_url=lock_url text=lock_text %}
+    {% if user_can_lock %}
+        {% include 'wagtailadmin/shared/action_switch.html' with data_url=lock_url label_text=lock_text checked=False %}
     {% endif %}
 {% endblock %}

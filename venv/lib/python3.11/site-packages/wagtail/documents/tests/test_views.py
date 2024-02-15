@@ -49,13 +49,13 @@ class TestServeView(TestCase):
     def test_content_disposition_header(self):
         self.assertEqual(
             self.get(self.document)["Content-Disposition"],
-            'attachment; filename="{}"'.format(self.document.filename),
+            f'attachment; filename="{self.document.filename}"',
         )
 
     def test_inline_content_disposition_header(self):
         self.assertEqual(
             self.get(self.pdf_document)["Content-Disposition"],
-            'inline; filename="{}"'.format(self.pdf_document.filename),
+            f'inline; filename="{self.pdf_document.filename}"',
         )
 
     @mock.patch("wagtail.documents.views.serve.hooks")
@@ -139,11 +139,14 @@ class TestServeView(TestCase):
         mock_handler = mock.MagicMock()
         models.document_served.connect(mock_handler)
 
-        self.get()
+        try:
+            self.get()
 
-        self.assertEqual(mock_handler.call_count, 1)
-        self.assertEqual(mock_handler.mock_calls[0][2]["sender"], models.Document)
-        self.assertEqual(mock_handler.mock_calls[0][2]["instance"], self.document)
+            self.assertEqual(mock_handler.call_count, 1)
+            self.assertEqual(mock_handler.mock_calls[0][2]["sender"], models.Document)
+            self.assertEqual(mock_handler.mock_calls[0][2]["instance"], self.document)
+        finally:
+            models.document_served.disconnect(mock_handler)
 
     def test_with_nonexistent_document(self):
         response = self.client.get(
@@ -165,12 +168,6 @@ class TestServeView(TestCase):
 
     def test_has_etag_header(self):
         self.assertEqual(self.get()["ETag"], '"123456"')
-
-    def test_has_cache_control_header(self):
-        self.assertIn(
-            self.get()["Cache-Control"],
-            ["max-age=3600, public", "public, max-age=3600"],
-        )
 
     def clear_sendfile_cache(self):
         from wagtail.utils.sendfile import _get_sendfile
@@ -272,7 +269,7 @@ class TestServeViewWithSendfile(TestCase):
         # Import using a try-catch block to prevent crashes if the
         # django-sendfile module is not installed
         try:
-            import sendfile  # noqa
+            import sendfile  # noqa: F401
         except ImportError:
             raise unittest.SkipTest("django-sendfile not installed")
 

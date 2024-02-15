@@ -45,7 +45,7 @@ class Command(BaseCommand):
             if not PageLogEntry.objects.filter(revision=revision).exists():
                 try:
                     current_revision_as_page = revision.as_object()
-                except Exception:
+                except Exception:  # noqa: BLE001
                     # restoring old revisions may fail if e.g. they have an on_delete=PROTECT foreign key
                     # to a no-longer-existing model instance. We cannot compare changes between two
                     # non-restorable revisions, although we can at least infer that there was a content
@@ -57,7 +57,7 @@ class Command(BaseCommand):
                 if previous_revision is not None:
                     try:
                         previous_revision_as_page = previous_revision.as_object()
-                    except Exception:
+                    except Exception:  # noqa: BLE001
                         previous_revision_as_page = None
 
                     if (
@@ -90,20 +90,19 @@ class Command(BaseCommand):
                         self.log_page_action("wagtail.publish", previous_revision, True)
 
                 if is_new_page or has_content_changes or published:
+                    actions = []
+
                     if is_new_page:
-                        action = "wagtail.create"
-                    elif published:
-                        action = "wagtail.publish"
-                    else:
-                        action = "wagtail.edit"
+                        actions.append("wagtail.create")
 
-                    if published and has_content_changes:
-                        # When publishing, also log the 'draft save', but only if there have been content changes
-                        self.log_page_action(
-                            "wagtail.edit", revision, has_content_changes
-                        )
+                    if is_new_page or has_content_changes:
+                        actions.append("wagtail.edit")
 
-                    self.log_page_action(action, revision, has_content_changes)
+                    if published:
+                        actions.append("wagtail.publish")
+
+                    for action in actions:
+                        self.log_page_action(action, revision, has_content_changes)
 
             previous_revision = revision
 

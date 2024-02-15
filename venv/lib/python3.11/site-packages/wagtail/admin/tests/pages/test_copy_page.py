@@ -13,7 +13,7 @@ from wagtail.test.testapp.models import (
 from wagtail.test.utils import WagtailTestUtils
 
 
-class TestPageCopy(TestCase, WagtailTestUtils):
+class TestPageCopy(WagtailTestUtils, TestCase):
     def setUp(self):
         # Find root page
         self.root_page = Page.objects.get(id=2)
@@ -222,7 +222,7 @@ class TestPageCopy(TestCase, WagtailTestUtils):
         # Check that the children were copied
         self.assertEqual(page_copy.get_children().count(), 2)
 
-        # Check the the child pages
+        # Check the child pages
         # Neither of them should be live
         child_copy = page_copy.get_children().filter(slug="child-page").first()
         self.assertIsNotNone(child_copy)
@@ -275,7 +275,7 @@ class TestPageCopy(TestCase, WagtailTestUtils):
         # Check that the children were copied
         self.assertEqual(page_copy.get_children().count(), 2)
 
-        # Check the the child pages
+        # Check the child pages
         # The child_copy should be live but the unpublished_child_copy shouldn't
         child_copy = page_copy.get_children().filter(slug="child-page").first()
         self.assertIsNotNone(child_copy)
@@ -506,7 +506,7 @@ class TestPageCopy(TestCase, WagtailTestUtils):
         # Check that the children were copied
         self.assertEqual(page_copy.get_children().count(), 2)
 
-        # Check the the child pages
+        # Check the child pages
         # Neither of them should be live
         child_copy = page_copy.get_children().filter(slug="child-page").first()
         self.assertIsNotNone(child_copy)
@@ -666,7 +666,7 @@ class TestPageCopy(TestCase, WagtailTestUtils):
         # Check that the children were copied
         self.assertEqual(page_copy.get_children().count(), 2)
 
-        # Check the the child pages
+        # Check the child pages
         # Neither of them should be live
         child_copy = page_copy.get_children().filter(slug="child-page").first()
         self.assertIsNotNone(child_copy)
@@ -708,7 +708,7 @@ class TestPageCopy(TestCase, WagtailTestUtils):
         self.user.is_superuser = False
         self.user.groups.add(Group.objects.get(name="Moderators"))
         self.user.save()
-        GroupPagePermission.objects.filter(permission_type="publish").update(
+        GroupPagePermission.objects.filter(permission__codename="publish_page").update(
             page=self.destination_page
         )
 
