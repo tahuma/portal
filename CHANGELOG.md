@@ -1,0 +1,89 @@
+
+## Changelog
+- **v1.0.0**: Initial release
+    - Yarn
+    - NPM
+    - Vue.js
+    - Webpack
+    - Bootstrap 5
+    - Django
+    - Django REST framework
+    - PostgreSQL
+    - Docker
+    - Wagtail
+    - User authentication
+    - Synopsis
+    - Ontology
+    - Texts
+    - Commentary
+    - Search
+    - Contribution
+    - Administration
+    - API
+    - Documentation
+    - Support
+    - License
+    - Changelog
+    - Contact
+    - Features
+    - Installation
+    - Docker installation
+    - Configuration
+    - Deployment
+    - Testing
+    - Contributing
+    - License
+    - Changelog
+    - README.md
+    - .gitignore
+    - requirements.txt
+    - Dockerfile
+    - docker-compose.yml
+    - portal/
+    - portal/settings.py
+    - portal/urls.py
+    - portal/wsgi.py
+    - portal/asgi.py
+    - portal/static/
+    - portal/templates/
+    - portal/migrations/
+    - portal/apps.py
+    - portal/admin.py
+    - portal/models.py
+    - portal/views.py
+    - portal/serializers.py
+    - portal/tests.py
+    - portal/urls.py
+    - portal/api/
+    - portal/api/urls.py
+    - portal/api/views.py
+    - portal/api/serializers.py
+    - portal/api/tests.py
+    - portal/api/migrations/
+    - portal/api/admin.py
+    - portal/api/apps.py
+    - portal/api/models.py
+    - portal/api/templates/
+    - portal/api/static/
+    - portal/api/wsgi.py
+    - portal/api/asgi.py
+    - portal/api/settings.py
+    - portal/api/urls.py
+    - portal/api/requirements.txt
+    - portal/api/Dockerfile
+    - portal/api/docker-compose.yml
+    - portal/api/README.md
+    - portal/api/LICENSE
+    - portal/api/CONTRIBUTING.md
+    - portal/api/CHANGELOG.md
+    - portal/api/.gitignore
+    - portal/api/.github/
+    - portal/api/.github/workflows/
+    - portal/api/.github/workflows/main.yml
+    - portal/api/.github/ISSUE_TEMPLATE/
+    - portal/api/.github/ISSUE_TEMPLATE/bug_report.md
+    - portal/api/.github/ISSUE_TEMPLATE/feature_request.md
+    - portal/api/.github/ISSUE_TEMPLATE/question.md
+    - portal/api/.github/ISSUE_TEMPLATE/support.md
+    - portal/api/.github/ISSUE_TEMPLATE/CONTRIBUTING.md
+  
