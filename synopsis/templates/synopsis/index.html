@@ -1,0 +1,39 @@
+{%  extends 'base.html' %}
+{% block extra_css %}
+<style>
+        .similar {
+            color: green;
+        }
+        .different {
+            color: red;
+        }
+        .omission {
+            color: blue;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="row">
+            <h1>Synoptic comparison</h1>
+            <p>This page shows the synoptic comparison.</p>
+        </div>
+
+        <div class="row">
+            {%  for text in texts %}
+                <div class="card m-3 is-rtl" style="width: 18rem;">
+                    <div class="card-body rtl">
+                        <h5 class="card-title text-end">{{ text.title }}</h5>
+                        <p class="card-text text-end">{{ text.text | safe }}</p>
+                    </div>
+                </div>
+            {%  endfor %}
+        </div>
+    <div class="row">
+        <h3>Apparatus Criticus</h3>
+        <p>The critical apparatus comes here.</p>
+    </div>
+    </div>
+
+{% endblock %}
