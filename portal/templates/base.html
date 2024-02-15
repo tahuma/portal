@@ -22,7 +22,13 @@
         {% endif %}
 
         {# Global stylesheets #}
+        <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
         <link rel="stylesheet" type="text/css" href="{% static 'css/portal.css' %}">
+
+        {# Fontawesome #}
+        <link href="{% static 'fontawesomefree/css/fontawesome.css' %}" rel="stylesheet" type="text/css">
+        <link href="{% static 'fontawesomefree/css/brands.css' %}" rel="stylesheet" type="text/css">
+        <link href="{% static 'fontawesomefree/css/solid.css' %}" rel="stylesheet" type="text/css">
 
         {% block extra_css %}
         {# Override this in templates to add extra stylesheets #}
@@ -32,10 +38,18 @@
     <body class="{% block body_class %}{% endblock %}">
         {% wagtailuserbar %}
 
-        {% block content %}{% endblock %}
+        {% include 'partials/mainmenu.html' %}
+        <div class="container">
+            <div class="row">
+            {% block content %}{% endblock %}
+            </div>
+        </div>
+
+        {% include 'partials/footer.html' %}
 
         {# Global javascript #}
         <script type="text/javascript" src="{% static 'js/portal.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
 
         {% block extra_js %}
         {# Override this in templates to add extra javascript #}
