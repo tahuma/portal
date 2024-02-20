@@ -1,0 +1,30 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.poetry.dependencies]
+python = "^3.8"
+
+[tool.poetry.dev-dependencies]
+
+[tool.sphinx]
+source-dir = "docs/source"  # Path to your Sphinx source directory
+config-dir = "docs/source"  # Path to your Sphinx configuration directory
+
+[tool.python.install]
+requirements = "docs/requirements.txt"
+
+[tool.isort]
+profile = "black"
+line_length = 99
+
+[tool.black]
+line-length = 99
+exclude = '''
+/(
+    \.git
+  | \.tox
+  | \.venv
+  | dist
+)/
+'''
