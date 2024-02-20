@@ -4,6 +4,7 @@
 
 # Required
 version: 2
+formats: all
 
 # Set the OS, Python version and other tools you might need
 build:
