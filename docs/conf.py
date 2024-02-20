@@ -32,14 +32,14 @@ html_css_files = [
 ]
 
 # -- Options for HTMLHelp output ---------------------------------------------
-htmlhelp_basename = 'YourProjectDoc'
+htmlhelp_basename = 'TanhumaPortalDoc'
 
 # -- Options for LaTeX output ------------------------------------------------
 latex_elements = {}
 
 latex_documents = [
-    (master_doc, 'YourProject.tex', 'Your Project Documentation',
-     'Your Name', 'manual'),
+    (master_doc, 'TanhumaPortal.tex', 'Tanhuma Project Documentation',
+     'Benjamin Schnabel', 'manual'),
 ]
 
 # -- Extension configuration -------------------------------------------------
