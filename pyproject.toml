@@ -18,3 +18,18 @@ config-dir = "docs/source"  # Path to your Sphinx configuration directory
 
 [tool.python.install]
 requirements = "docs/requirements.txt"
+
+[tool.isort]
+profile = "black"
+line_length = 99
+
+[tool.black]
+line-length = 99
+exclude = '''
+/(
+    \.git
+  | \.tox
+  | \.venv
+  | dist
+)/
+'''
