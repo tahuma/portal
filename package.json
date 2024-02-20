@@ -1,4 +1,11 @@
 {
-  "name": "portal",
-  "packageManager": "yarn@4.1.0"
+  "name": "Tanhuma Portal",
+  "version": "1.0.0",
+  "description": "This is the package for the Tanhuma Portal",
+  "author": "Benjamin Schnabel",
+  "license": "MIT",
+  "packageManager": "yarn@4.1.0",
+  "scripts": {
+    "test": "scripts/test"
+  }
 }

@@ -10,14 +10,14 @@ const RAW_RUNTIME_STATE =
   ],\
   "dependencyTreeRoots": [\
     {\
-      "name": "portal",\
+      "name": "Tanhuma Portal",\
       "reference": "workspace:."\
     }\
   ],\
   "enableTopLevelFallback": true,\
   "ignorePatternData": "(^(?:\\\\.yarn\\\\/sdks(?:\\\\/(?!\\\\.{1,2}(?:\\\\/|$))(?:(?:(?!(?:^|\\\\/)\\\\.{1,2}(?:\\\\/|$)).)*?)|$))$)",\
   "fallbackExclusionList": [\
-    ["portal", ["workspace:."]]\
+    ["Tanhuma Portal", ["workspace:."]]\
   ],\
   "fallbackPool": [\
   ],\
@@ -30,11 +30,11 @@ const RAW_RUNTIME_STATE =
         "linkType": "SOFT"\
       }]\
     ]],\
-    ["portal", [\
+    ["Tanhuma Portal", [\
       ["workspace:.", {\
         "packageLocation": "./",\
         "packageDependencies": [\
-          ["portal", "workspace:."]\
+          ["Tanhuma Portal", "workspace:."]\
         ],\
         "linkType": "SOFT"\
       }]\

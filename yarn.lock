@@ -5,8 +5,8 @@ __metadata:
   version: 8
   cacheKey: 10c0
 
-"portal@workspace:.":
+"Tanhuma Portal@workspace:.":
   version: 0.0.0-use.local
-  resolution: "portal@workspace:."
+  resolution: "Tanhuma Portal@workspace:."
   languageName: unknown
   linkType: soft
