@@ -34,14 +34,6 @@ html_css_files = [
 # -- Options for HTMLHelp output ---------------------------------------------
 htmlhelp_basename = 'TanhumaPortalDoc'
 
-# -- Options for LaTeX output ------------------------------------------------
-latex_elements = {}
-
-latex_documents = [
-    (master_doc, 'TanhumaPortal.tex', 'Tanhuma Project Documentation',
-     'Benjamin Schnabel', 'manual'),
-]
-
 # -- Extension configuration -------------------------------------------------
 
 # -- Options for napoleon extension ------------------------------------------
