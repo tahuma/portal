@@ -16,7 +16,6 @@ import os
 PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BASE_DIR = os.path.dirname(PROJECT_DIR)
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
@@ -49,6 +48,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    'debug_toolbar',
 ]
 
 MIDDLEWARE = [
@@ -60,6 +60,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "wagtail.contrib.redirects.middleware.RedirectMiddleware",
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 ROOT_URLCONF = "portal.urls"
@@ -84,17 +85,28 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "portal.wsgi.application"
 
-
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
+"""
+DATABASES = {
+   "default": {
+       "ENGINE": os.getenv("DATABASE_ENGINE", "django.db.backends.sqlite3"),
+       "NAME": os.getenv("DATABASE_NAME", ":memory:"),
+       "USER": os.getenv("DATABASE_USER", ""),
+       "PASSWORD": os.getenv("DATABASE_PASSWORD", ""),
+       "HOST": os.getenv("DATABASE_HOST", ""),
+       "PORT": os.getenv("DATABASE_PORT", ""),
+       "TEST": {"NAME": os.getenv("DATABASE_NAME", "")},
+   }
+}
 
+"""
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
         "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
@@ -114,7 +126,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
 
@@ -127,7 +138,6 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
@@ -152,6 +162,18 @@ STATIC_URL = "/static/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 MEDIA_URL = "/media/"
 
+# Caches
+CACHES = {
+    'default': {
+        'BACKEND': 'django_redis.cache.RedisCache',
+        'LOCATION': os.getenv('REDIS_URL', 'redis://127.0.0.1:6379'),
+        'TIMEOUT': os.getenv('CACHE_TIMEOUT', 300),
+        'CACHE_PREFIX': os.getenv('CACHE_PREFIX', 'tanhuma'),
+        'OPTIONS': {
+            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+        }
+    }
+}
 
 # Wagtail settings
 
@@ -173,6 +195,7 @@ WAGTAIL_I18N_ENABLED = True
 
 WAGTAIL_CONTENT_LANGUAGES = [
     ('en', "English"),
+    ('en', "English"),
     ('he', "Hebrew"),
 ]
 
@@ -180,4 +203,3 @@ WAGTAIL_CONTENT_LANGUAGES = [
 WAGTAILADMIN_COMMENTS_ENABLED = False
 
 WAGTAIL_AUTO_UPDATE_PREVIEW = True
-

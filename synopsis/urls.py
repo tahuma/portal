@@ -8,9 +8,12 @@ from wagtail.documents import urls as wagtaildocs_urls
 
 from synopsis import views as synopsis_views
 
+# set namespace
+app_name = "synopsis"
+
 urlpatterns = [
+    path("django-admin/", admin.site.urls, name="django-admin"),
     path("", synopsis_views.index, name="index"),
-    path('^admin/',admin.site.urls),
 ]
 
 
