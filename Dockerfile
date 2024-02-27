@@ -22,6 +22,8 @@ RUN apt-get update --yes --quiet && apt-get install --yes --quiet --no-install-r
     libjpeg62-turbo-dev \
     zlib1g-dev \
     libwebp-dev \
+    redis-server \
+    postgresql \
  && rm -rf /var/lib/apt/lists/*
 
 # Install the application server.
@@ -47,6 +49,10 @@ USER wagtail
 
 # Collect static files.
 RUN python manage.py collectstatic --noinput --clear
+
+RUN python manage.py makemigrations --noinput
+
+
 
 # Runtime command that executes when "docker run" is called, it does the
 # following:
