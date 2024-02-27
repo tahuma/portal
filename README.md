@@ -84,13 +84,14 @@ To install the Tanhuma Project Portal using Docker, follow these steps:
     ```
 2. Build the Docker image:
     ```sh
-   docker-compose build
+   docker build -r tahuma .
    ```
 3. Run the Docker container: 
    ```sh
-   docker-compose up
+   docker run -p 8000:8000 tahuma
    ```
 4. Access the portal in your web browser: http://localhost:8000
 5. Log in to the portal using the default administrator account:
    - Username: admin
    - Password: admin
+
