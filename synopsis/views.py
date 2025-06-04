@@ -1,23 +1,23 @@
 import logging
 import difflib
-from difflib import unified_diff
 
 from django.shortcuts import render
 from synopsis.models import Text
 
 # Create your views here.
 
+
 def colorize_diff(a, b):
     matcher = difflib.SequenceMatcher(None, a, b)
-    diff = ''
+    diff = ""
     for opcode, a0, a1, b0, b1 in matcher.get_opcodes():
-        if opcode == 'equal':
+        if opcode == "equal":
             diff += f'<span class="similar">{a[a0:a1]}</span>'
-        elif opcode == 'replace':
+        elif opcode == "replace":
             diff += f'<span class="different">{b[b0:b1]}</span>'
-        elif opcode == 'insert':
+        elif opcode == "insert":
             diff += f'<span class="different">{b[b0:b1]}</span>'
-        elif opcode == 'delete':
+        elif opcode == "delete":
             diff += '<span class="omission">[...]</span>'
     return diff
 
@@ -29,9 +29,8 @@ def index(request):
     error = None
     try:
         # get all the texts from the database
-        texts = Text.objects.all().filter(enabled=True).order_by('created_at').reverse()
-        base_text = Text.objects.all().filter(enabled=True).order_by('created_at').first().text
-        base_text = texts.first().text
+        texts = Text.objects.all().filter(enabled=True).order_by("created_at").reverse()
+        base_text = Text.objects.all().filter(enabled=True).order_by("created_at").first().text
         diffs = []
 
         for text in texts:
@@ -41,7 +40,6 @@ def index(request):
             diffs.append(diff)
 
         # replace d
-
 
         print("Diffs: ", diffs)
 
@@ -63,14 +61,14 @@ def index(request):
             
         """
     except Exception as error:
-        logging.error(f'Error: {error}')
+        logging.error(f"Error: {error}")
         texts = []
         diffs = []
 
     context = {
-        'error_message': error,
-        'texts': texts,
+        "error_message": error,
+        "texts": texts,
         #'diffs': [text.text for text in texts],
-        'diffs': diffs,
+        "diffs": diffs,
     }
-    return render(request, 'synopsis/index.html', context)
+    return render(request, "synopsis/index.html", context)
